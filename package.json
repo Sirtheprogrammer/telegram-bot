@@ -1,0 +1,17 @@
+{
+  "name": "hackerbot",
+  "version": "1.0.0",
+  "description": "Telegram hacking assistant bot",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "axios": "^1.6.8",
+    "dotenv": "^16.4.5",
+    "socks-proxy-agent": "^8.0.5",
+    "telegraf": "^4.12.2"
+  }
+}
