@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SirTech T-Bot — Control Hub</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --primary: #00c6ff;
+      --secondary: #0072ff;
+      --dark: #0f172a;
+      --darker: #0a1121;
+      --light: #f8fafc;
+      --success: #00d68f;
+      --warning: #ffaa00;
+      --danger: #ff3d71;
+    }
+    
+    body {
+      background: linear-gradient(135deg, var(--dark), var(--darker));
+      color: var(--light);
+      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.6;
+    }
+    
+    @supports (font-variation-settings: normal) {
+      body { font-family: 'Inter var', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    }
+    
+    .glass-card {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.36);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .glass-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+    
+    .gradient-text {
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 800;
+    }
+    
+    .status-badge {
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      padding: 0.35rem 0.75rem;
+      border-radius: 50px;
+    }
+    
+    .badge-online {
+      background: linear-gradient(135deg, var(--success), #00b383);
+      color: #000;
+    }
+    
+    .badge-offline {
+      background: linear-gradient(135deg, var(--warning), var(--danger));
+      color: #000;
+    }
+    
+    .feature-icon {
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+      color: var(--primary);
+    }
+    
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      margin: 1.5rem 0;
+    }
+    
+    .btn-telegram {
+      background: linear-gradient(135deg, #0088cc, #34b7f1);
+      color: white;
+      border: none;
+      font-weight: 600;
+      padding: 0.5rem 1.5rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-telegram:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(52, 183, 241, 0.3);
+      color: white;
+    }
+    
+    .github-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--light);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .github-link:hover {
+      color: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    .feature-item {
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    
+    .feature-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateX(4px);
+    }
+    
+    .owner-badge {
+      background: rgba(0, 198, 255, 0.15);
+      color: var(--primary);
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(0, 198, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0); }
+    }
+  </style>
+</head>
+<body class="d-flex align-items-center">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <div class="glass-card p-4 p-md-5">
+          <div class="text-center mb-4">
+            <h1 class="gradient-text display-4 fw-bold mb-3">SirTech T-Bot</h1>
+            <p class="lead mb-3">
+              <span class="status-badge badge-offline" id="bot-status">
+                <i class="fas fa-circle-notch fa-spin me-2"></i>Checking status...
+              </span>
+            </p>
+          </div>
+          
+          <div class="divider"></div>
+          
+          <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-center mb-4">
+            <div class="mb-3 mb-md-0">
+              <span class="owner-badge">
+                <i class="fas fa-user-astronaut"></i>
+                Owner: SirTheProgrammer
+              </span>
+            </div>
+            <a href="https://github.com/sirtheprogrammer" class="github-link" target="_blank">
+              <i class="fab fa-github"></i>
+              GitHub Profile
+            </a>
+          </div>
+          
+          <div class="divider"></div>
+          
+          <div class="mb-4">
+            <h3 class="text-center mb-4"><i class="fas fa-rocket me-2"></i>Bot Features</h3>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="feature-item">
+                  <div class="feature-icon"><i class="fas fa-comment-dots"></i></div>
+                  <strong>/ask</strong> — AI Assistant (Gemini)
+                </div>
+                <div class="feature-item">
+                  <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                  <strong>/whois</strong> — Domain Intelligence
+                </div>
+                <div class="feature-item">
+                  <div class="feature-icon"><i class="fas fa-network-wired"></i></div>
+                  <strong>/ipinfo</strong> — IP Details
+                </div>
+                <div class="feature-item">
+                  <div class="feature-icon"><i class="fas fa-search"></i></div>
+                  <strong>/dork</strong> — Google Dork Scraper
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="feature-item">
+                  <div class="feature-icon"><i class="fas fa-plug"></i></div>
+                  <strong>/portscan</strong> — Fast Port Scanner
+                </div>
+                <div class="feature-item">
+                  <div class="feature-icon"><i class="fas fa-link"></i></div>
+                  <strong>/genlink</strong> — Phishing Link Generator
+                </div>
+                <div class="feature-item">
+                  <div class="feature-icon"><i class="fas fa-cloud-sun"></i></div>
+                  <strong>/weather</strong> — Live Weather
+                </div>
+                <div class="feature-item">
+                  <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                  <strong>/crypto</strong> — Crypto Prices
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="divider"></div>
+          
+          <div class="text-center mt-4">
+            <h4 class="mb-3"><i class="fas fa-satellite-dish me-2"></i>Mission Control</h4>
+            <p class="text-muted mb-4">Operate SirTech T-Bot directly from Telegram</p>
+            <a href="https://t.me/anonynoman_bot" target="_blank" class="btn-telegram pulse">
+              <i class="fab fa-telegram"></i>
+              Open in Telegram
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function checkBotStatus() {
+      const statusEl = document.getElementById('bot-status');
+      const icon = statusEl.querySelector('i');
+      
+      try {
+        icon.className = 'fas fa-circle-notch fa-spin me-2';
+        statusEl.textContent = 'Checking status...';
+        
+        const res = await fetch(`https://api.telegram.org/bot8269388230:AAHfMBEFR_p5hRuNSgHYWGqJCNjgj8kwiXk/getMe`);
+        
+        if (res.ok) {
+          const data = await res.json();
+          if (data.ok) {
+            statusEl.innerHTML = '<i class="fas fa-check-circle me-2"></i> ONLINE';
+            statusEl.classList.remove('badge-offline');
+            statusEl.classList.add('badge-online');
+          } else {
+            throw new Error('Bot offline');
+          }
+        } else {
+          throw new Error('API error');
+        }
+      } catch (err) {
+        statusEl.innerHTML = '<i class="fas fa-times-circle me-2"></i> OFFLINE';
+        statusEl.classList.remove('badge-online');
+        statusEl.classList.add('badge-offline');
+      }
+    }
+    
+    // Check status on load
+    checkBotStatus();
+    
+    // Check every 30 seconds
+    setInterval(checkBotStatus, 30000);
+  </script>
+</body>
+</html>
