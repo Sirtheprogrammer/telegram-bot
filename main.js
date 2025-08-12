@@ -8,11 +8,7 @@ import { whois, subdomains, headers } from './modules/extra.js';
 import { imagegen } from './modules/imagegen.js';
 
 dotenv.config();
-import { SocksProxyAgent } from 'socks-proxy-agent';
-const agent = new SocksProxyAgent('socks5h://127.0.0.1:9050');
-const bot = new Telegraf(process.env.BOT_TOKEN, {
-  telegram: { agent }
-});
+const bot = new Telegraf(process.env.BOT_TOKEN);
 
 bot.start((ctx) => ctx.reply(`🤖 Welcome to HackerBot!\n\nAvailable commands:\n/ipinfo <IP> - Fetch IP details\n/dork <query> - Google dork scraper\n/dorkhelp - Show sample Google dorking queries\n/imagegen <prompt> - Generate AI image\n/portscan <ip> - Fast port scanner\n/genlink <service> - Simple phishing link generator`));
 bot.command('ipinfo', ipinfo);
