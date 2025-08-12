@@ -13,5 +13,6 @@
     "dotenv": "^16.4.5",
     "socks-proxy-agent": "^8.0.5",
     "telegraf": "^4.12.2"
-  }
+  },
+  "express": "^4.19.2"
 }
